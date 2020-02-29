@@ -1,0 +1,23 @@
+{
+  "name": "remit",
+  "version": "1.0.0",
+  "description": "A remittance is a transfer of money, often by a foreign worker to an individual in their home country. Money sent home by migrants competes with international aid as one of the largest financial inflows to developing countries.",
+  "main": "index.js",
+  "dependencies": {
+    "xpring-js": "^1.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SullivanXiong/Remit.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SullivanXiong/Remit/issues"
+  },
+  "homepage": "https://github.com/SullivanXiong/Remit#readme"
+}
