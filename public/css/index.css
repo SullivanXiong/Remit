@@ -133,3 +133,15 @@ body {
 #success {
     display: none;
 }
+
+.nav-link {
+    padding-bottom: 0;
+}
+
+p {
+    text-align: center;
+}
+
+.animation-gif {
+    text-align: center;
+}
