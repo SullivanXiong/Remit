@@ -53,8 +53,8 @@ body {
 }
 
 .btn-primary:hover {
-    background: #4a47a3;
-    border-color: #4a47a3;
+    background: #f0932b;
+    border-color: #f0932b;
 }
 
 .btn-primary {
@@ -110,7 +110,7 @@ body {
 }
 
 .navbar a:hover {
-    color: black;
+    color: #f0932b;
 }
 
 #create-account {
@@ -118,5 +118,13 @@ body {
 }
 
 #pay {
+    display: none;
+}
+
+#auth {
+    display: none;
+}
+
+#success {
     display: none;
 }

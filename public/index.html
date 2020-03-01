@@ -58,17 +58,32 @@
                 <h4 class="card-title">Transfer Money</h4>
                 <div id="form">
                 <div>
-                    <input type="name" class="input form-control" maxlength="30" placeholder="Username" id="payer" required><br />
-                    <input type="password" class="input form-control" maxlength="30" placeholder="Password" id="payee" required><br />
+                    <input type="name" class="input form-control" maxlength="50" placeholder="From" id="payer" required><br />
+                    <input type="name" class="input form-control" maxlength="50" placeholder="To" id="payee" required><br />
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">$</span>
                         </div>
-                            <input type="number" min="0.00" step="0.05" value="0.00" id="exampleInputAmount" class="form-control" placeholder="Price">
+                            <input type="number" min="0.00" step="0.05" value="0.00" id="payAmount" class="form-control" placeholder="Price">
                         </div>
 
                     <button id="createButton" class="btn btn-primary btn-block bg-yellow" onclick="payMoney()"> Pay </button>
                 </div>
+                </div>
+            </div>
+            <div id="auth">
+                <h4 class="card-title">Transfer Money</h4>
+                <div id="form">
+                <div>
+                    <input type="password" class="input form-control" maxlength="50" placeholder="Password" id="authPassword" required><br />
+
+                    <button id="createButton" class="btn btn-primary btn-block bg-yellow" onclick="authUser()"> Authenticate </button>
+                </div>
+                </div>
+            </div>
+            <div id="success">
+                <h4 class="card-title">Success</h4>
+                <p>Your transaction was successful!</p>
                 </div>
             </div>
 

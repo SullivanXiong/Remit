@@ -15,3 +15,17 @@ function showPay() {
     initCreate.style.display = "none";
     initPay.style.display = "none";
 }
+
+function payMoney() {
+    var pay = document.getElementById("pay");
+    var auth = document.getElementById("auth");
+    pay.style.display = "none";
+    auth.style.display = "block";
+}
+
+function authUser() {
+    var auth = document.getElementById("auth");
+    var success = document.getElementById("success");
+    auth.style.display = "none";
+    success.style.display = "block";
+}
