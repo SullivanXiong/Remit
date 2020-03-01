@@ -4,15 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!--    Global styles/assets    -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro&display=swap" rel="stylesheet"> 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="css/index.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/index.css"/>
         <!--    JQuery    -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     </head>
 
     <body>
         <nav class="navbar navbar-expand-lg fixed-top">
-        <a class="navbar-brand font-weight-bold" href="index.html">R<span class="text-yellow">emit</span></a>
+        <a class="navbar-brand font-weight-bold" href="index.html">r<span class="text-yellow">emit</span></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -20,66 +21,56 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">Home<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="index.html">home<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="companies.html">Organizations</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="about.html">About Us</a>
+                <a class="nav-link" href="about.html">about</a>
             </li>
             </ul>
 
             <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle p-0 remove" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img src="images/profile.jpg" class="profile-pic">
-                </a>
-                <div class="dropdown-menu" aria-labelledby="profileDropdown">
-                <a class="dropdown-item" id="profile-name" href="profile.html"></a>
-                <a class="dropdown-item" href="yourProfile.html">Settings</a>
-                <div class="dropdown-divider"></div>
-                <button class="dropdown-item" onclick="signOut()">Sign Out</button>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Sign In
-                </a>
-                <div class="dropdown-menu" style="width: 300px;" aria-labelledby="loginDropdown">
-                    <div style="margin: 1rem 1rem;">
-											 <input type="email" class="input form-control" id="login_email" placeholder="Email address" required><br />
-											 <input type="password" class="input form-control" id="login_password" placeholder="Password" required>
-                                             <div class="help-block text-right"><a href="">Forget the password ?</a></div>
-											 <button class="btn btn-primary btn-block bg-purple" onclick="signIn()">Sign in</button>
-										<div class="checkbox">
-											 <label>
-											 <input type="checkbox"> Keep me logged-in
-											 </label>
-										</div>
-                                    </div>
-                </div>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onClick=showCreate()>create account</a>
+                </li>
             </ul>
 
         </div>
         </nav>
 
         <div class="center-container mt-5">
-            
-                    <h4 class="card-title">Create Account</h4>
-                    <div id="form">
-                    <div>
-                        <input type="name" class="input form-control" maxlength="30" placeholder="Username" id="username" required><br />
-                        <input type="password" class="input form-control" maxlength="30" placeholder="Password" id="password" required><br />
-                        <input type="password" class="input form-control" maxlength="30" placeholder="Re-type password" id="password_confirm" required><br />
 
-                        <button id="createButton" class="btn btn-primary btn-block bg-purple" onclick="signUpUser()"> Create Account </button>
-                    </div>
-                    </div>
-                    <hr class="m-4">
-                    <h4>Charity group or organzation?</h4>
-                    <p class="mb-5"><a href="signup-company.html">Click here</a> to join CharityTrust and start receiving donations.</p>
+            <button id="initCreate" class="btn btn-primary btn-block bg-yellow" onclick="showCreate()"> Create Account </button>
+            <button id="initPay" class="btn btn-primary btn-block bg-yellow" onclick="showPay()"> Pay </button>
+            
+            <div id="create-account">
+                <h4 class="card-title">Create Account</h4>
+                <div id="form">
+                <div>
+                    <input type="name" class="input form-control" maxlength="30" placeholder="Username" id="username" required><br />
+                    <input type="password" class="input form-control" maxlength="30" placeholder="Password" id="password" required><br />
+                    <input type="password" class="input form-control" maxlength="30" placeholder="Re-type password" id="password_confirm" required><br />
+
+                    <button id="createButton" class="btn btn-primary btn-block bg-purple" onclick="signUpUser()"> Create Account </button>
+                </div>
+                </div>
+            </div>
+            <div id="pay">
+                <h4 class="card-title">Transfer Money</h4>
+                <div id="form">
+                <div>
+                    <input type="name" class="input form-control" maxlength="30" placeholder="Username" id="payer" required><br />
+                    <input type="password" class="input form-control" maxlength="30" placeholder="Password" id="payee" required><br />
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                            <input type="number" min="0.00" step="0.05" value="0.00" id="exampleInputAmount" class="form-control" placeholder="Price">
+                        </div>
+
+                    <button id="createButton" class="btn btn-primary btn-block bg-yellow" onclick="payMoney()"> Pay </button>
+                </div>
+                </div>
+            </div>
 
         </div>
         
@@ -91,6 +82,7 @@
         <!-- firebase init config file -->
         <script src="/firebase/init.js"></script>
         <script src="/firebase/firebase.js"></script>
+        <script src="/javascript/index.js"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
