@@ -46,7 +46,7 @@ function signUpUser() {
                 console.log("User Name exists already.");
             }
             else {
-                const { Wallet } = require("xpring-js");
+
                 db.collection("users").doc(userName).set({
                     address: null,
                     password: userPass,
