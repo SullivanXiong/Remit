@@ -45,6 +45,7 @@ console.log(recipientBalance.value);
 }
 
 app.post('/transactionDetails', (req, res) => {
+  console.log("hahaha");
   sendMoney(req.body.sender, req.body.receiver, req.body.amount);
 });
 
