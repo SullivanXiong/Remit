@@ -47,7 +47,7 @@ function authUser() {
 
     $.ajax({
         method: "POST",
-        url: "http://localhost:1338/transactionDetails",
+        url: "https://remit3p.herokuapp.com/transactionDetails",
         // The key needs to match your method's input parameter (case-sensitive).
         data: JSON.stringify({ sender: payer, receiver: payee, amount: payAmount }),
         contentType: "application/json; charset=utf-8",
@@ -57,7 +57,6 @@ function authUser() {
             alert(errMsg);
         }
     });
-    console.log("asdf");
 
 }
 
