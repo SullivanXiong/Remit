@@ -1,3 +1,7 @@
+body {
+    font-family: 'Source Sans Pro';
+}
+
 .bg-purple 
 { 
     background-color: #916dd5; 
@@ -15,7 +19,7 @@
 
 .bg-yellow
 {
-    color: #f9ca24;
+    background-color: #f9ca24;
 }
 
 .card-title
@@ -54,8 +58,8 @@
 }
 
 .btn-primary {
-    background-color: #916dd5;
-    border-color: #916dd5;
+    background-color: #f9ca24;
+    border-color: #f9ca24;
 }
 
 .ml-auto .dropdown-menu {
@@ -90,8 +94,15 @@
 }
 
 .center-container {
-    margin: 0 auto;
+    /* margin: 0 auto;
     max-width: 40em;
+    padding: 1rem; */
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  /* width: 40%; */
+  height: 50%;
 }
 
 .navbar a {
@@ -100,4 +111,12 @@
 
 .navbar a:hover {
     color: black;
+}
+
+#create-account {
+    display: none;
+}
+
+#pay {
+    display: none;
 }
