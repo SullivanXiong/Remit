@@ -2,18 +2,34 @@ function showCreate() {
     var create = document.getElementById("create-account");
     var initCreate = document.getElementById("initCreate");
     var initPay = document.getElementById("initPay");
+    var initBalance = document.getElementById("initBalance");
     create.style.display = "block";
     initCreate.style.display = "none";
     initPay.style.display = "none";
+    initBalance.style.display = "none";
 }
 
 function showPay() {
     var pay = document.getElementById("pay");
     var initCreate = document.getElementById("initCreate");
     var initPay = document.getElementById("initPay");
+    var initBalance = document.getElementById("initBalance");
+
     pay.style.display = "block";
     initCreate.style.display = "none";
     initPay.style.display = "none";
+    initBalance.style.display = "none";
+}
+
+function showBalance() {
+    var pay = document.getElementById("pay");
+    var initCreate = document.getElementById("initCreate");
+    var initPay = document.getElementById("initPay");
+    var initBalance = document.getElementById("initBalance");
+    pay.style.display = "none";
+    initCreate.style.display = "none";
+    initPay.style.display = "none";
+    initBalance.style.display = "block";
 }
 
 function payMoney() {
@@ -27,13 +43,13 @@ function authUser() {
     var payer = $('#payer').val();
     var payee = $('#payee').val();
     var authPassword = $('#authPassword').val();
-    var amount = $('#payAmount')
+    var payAmount = $('#payAmount').val();
 
     $.ajax({
-        type: "POST",
+        method: "POST",
         url: "http://localhost:1338/transactionDetails",
         // The key needs to match your method's input parameter (case-sensitive).
-        data: JSON.stringify({ sender: payer, receiver: payee, amount: amount }),
+        data: JSON.stringify({ sender: payer, receiver: payee, amount: payAmount }),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: triggerSuccess(),
