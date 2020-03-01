@@ -24,8 +24,31 @@ function payMoney() {
 }
 
 function authUser() {
+    var payer = $('#payer').val();
+    var payee = $('#payee').val();
+    var authPassword = $('#authPassword').val();
+    var amount = $('#payAmount')
+
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:1338/transactionDetails",
+        // The key needs to match your method's input parameter (case-sensitive).
+        data: JSON.stringify({ sender: payer, receiver: payee, amount: amount }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: triggerSuccess(),
+        failure: function(errMsg) {
+            alert(errMsg);
+        }
+    });
+    console.log("asdf");
+
+}
+
+function triggerSuccess() {
     var auth = document.getElementById("auth");
     var success = document.getElementById("success");
     auth.style.display = "none";
     success.style.display = "block";
 }
+
