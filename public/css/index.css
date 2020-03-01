@@ -1,0 +1,103 @@
+.bg-purple 
+{ 
+    background-color: #916dd5; 
+}
+
+.text-purple
+{
+    color: #916dd5;
+}
+
+.text-yellow
+{
+    color: #f9ca24;
+}
+
+.bg-yellow
+{
+    color: #f9ca24;
+}
+
+.card-title
+{
+    text-align: center;
+}
+
+.parallax
+{
+    border-radius: 0;
+    height: 100vh;
+}
+
+.parallax .blurb
+{
+    padding-left: 25%;
+    padding-right: 25%;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+
+}
+
+.navbar-transparent
+{
+    background: transparent !important;
+}
+
+.navbar .navbar-brand {
+    font-size: 1.5rem;
+}
+
+.btn-primary:hover {
+    background: #4a47a3;
+    border-color: #4a47a3;
+}
+
+.btn-primary {
+    background-color: #916dd5;
+    border-color: #916dd5;
+}
+
+.ml-auto .dropdown-menu {
+    right: 0;
+    left: auto;
+}
+
+.profile-pic {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.remove {
+    display: none;
+}
+
+.stats .col-md-4 {
+    border-right: 1px solid gray;
+    border-right-color: rgba(0,0,0,0.35);
+}
+
+.company-list {
+    margin: 0.8rem auto;
+    max-width: 50em;
+}
+
+.row {
+    width: 100%;
+}
+
+.center-container {
+    margin: 0 auto;
+    max-width: 50em;
+}
+
+.navbar a {
+    color: black;
+}
+
+.navbar a:hover {
+    color: black;
+}
