@@ -2,6 +2,7 @@ body {
     font-family: 'Source Sans Pro';
 }
 
+
 .bg-purple 
 { 
     background-color: #916dd5; 
@@ -14,6 +15,7 @@ body {
 
 .text-yellow
 {
+    font-size: 30px;
     color: #f9ca24;
 }
 
@@ -49,7 +51,7 @@ body {
 }
 
 .navbar .navbar-brand {
-    font-size: 1.5rem;
+    font-size: 2.0rem;
 }
 
 .btn-primary:hover {
@@ -58,6 +60,8 @@ body {
 }
 
 .btn-primary {
+    font-size: 30px;
+    padding: 10px;
     background-color: #f9ca24;
     border-color: #f9ca24;
 }
@@ -106,6 +110,7 @@ body {
 }
 
 .navbar a {
+    font-size:20px;
     color: black;
 }
 
