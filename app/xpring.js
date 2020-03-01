@@ -18,6 +18,11 @@ const xpringClient = new XpringClient(remoteURL);
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 
 
@@ -44,7 +49,7 @@ console.log(balance.value);
 console.log(recipientBalance.value);
 }
 
-app.options('/transactionDetails', (req, res) => {
+app.post('/transactionDetails', (req, res) => {
   console.log("hahaha");
   sendMoney(req.body.sender, req.body.receiver, req.body.amount);
 });
