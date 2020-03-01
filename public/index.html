@@ -41,6 +41,7 @@
 
             <button id="initCreate" class="btn btn-primary btn-block bg-yellow" onclick="showCreate()"> Create Account </button>
             <button id="initPay" class="btn btn-primary btn-block bg-yellow" onclick="showPay()"> Pay </button>
+            <!-- <button id="initBalance" class="btn btn-primary btn-block bg-yellow" onclick="showBalance()"> Check Balance </button> -->
             
             <div id="create-account">
                 <h4 class="card-title">Create Account</h4>
@@ -82,10 +83,29 @@
                 </div>
             </div>
             <div id="success">
+                <div class="animation-gif">
+                    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+                    <lottie-player
+                        src="https://assets9.lottiefiles.com/datafiles/jEgAWaDrrm6qdJx/data.json"  background="transparent"  speed="1"  style="width: 150px; height: 150px; margin: -2rem"    autoplay >
+                    </lottie-player>
+                </div>
+                
                 <h4 class="card-title">Success</h4>
                 <p>Your transaction was successful!</p>
                 </div>
+                <!-- <div id="check-balance">
+                    <h4 class="card-title">Check Balance</h4>
+                    <div id="form">
+                    <div>
+                        <input type="name" class="input form-control" maxlength="30" placeholder="Username" id="usernameBalance" required><br />
+                        <input type="password" class="input form-control" maxlength="30" placeholder="Password" id="passwordBalance" required><br />
+    
+                        <button id="checkBalance" class="btn btn-primary btn-block bg-purple" onclick="checkBalance()"> Check Balance </button>
+                    </div>
+                    </div>
+                </div> -->
             </div>
+            
 
         </div>
         
