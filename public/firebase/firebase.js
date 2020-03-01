@@ -16,8 +16,8 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 function signIn() {
     console.log("Attempting to sign in...");
-    var userName = $("#login_username").val();
-    var userPass = $("#login_password").val();
+    var userName = $("#username").val();
+    var userPass = $("#password").val();
     firebase.auth().signInWithEmailAndPassword(userName, userPass).catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
@@ -29,8 +29,8 @@ function signIn() {
 
 function signUpUser() {
     var userName = $('#username').val();
-    var userPass = $('#password_field').val();
-    var userPassConf = $('#password_conf_field').val();
+    var userPass = $('#password').val();
+    var userPassConf = $('#password_confirm').val();
     if (userPassConf == userPass) {
         firebase.auth().createUserWithEmailAndPassword(userName, userPass).catch(function(error) {
         // Handle Errors here.
