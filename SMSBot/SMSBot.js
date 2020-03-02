@@ -1,35 +1,23 @@
 const http = require('http');
 const express = require('express');
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
+var bodyParser = require('body-parser');
 
 const app = express();
 
-/*
-app.get('/sms', (req, res) => {
-    const twiml = new MessagingResponse();
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false })) 
 
-    if (previousMessage == '' || previousMessage == 'Hello, please type \'send\' OR \'create account\'') {
-        twiml.message('Hello, please type \'send\' OR \'create account\'');
-    }
-    else if (previousMessage == '') {
-
-    }
-
-    res.writeHead(200, {'Content-Type': 'text/xml'});
-    res.end(twiml.toString());
-});
-
-app.post('/sms', (req, res) => {
-    const twiml = new MessagingResponse();
-
-    twiml.message('test');
-
-    res.writeHead(200, {'Content-Type': 'text/xml'});
-    res.end(twiml.toString());
-});*/
+// parse application/json
+app.use(bodyParser.json())
 
 app.post('/transactionDetails', (req, res) => {
-
+    let sender = req.body.sender;
+    let receiver = req.body.receiver;
+    let amount = req.body.amount;
+    let currency = req.body.currency;
+    console.log(`sender: ${sender}, receiver: ${receiver}, amount: ${amount}, currency: ${currency}`);
+    res.send(200);
 })
 
 http.createServer(app).listen(1337, () => {
