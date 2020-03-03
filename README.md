@@ -2,27 +2,25 @@
 Remit is a peer-to-peer payment system with a quick one time set up process. Once you create an account, either through SMS or the website, making a transaction takes only a couple of seconds.
 
 # Technologies utilized:
-*Xpring-js
+Xpring-js
 
-*Nodejs
+Nodejs
 
-*Heroku
+Heroku
 
-*Ngrok
+Ngrok
 
-*Twilio Autopilot SMSBot
+Twilio Autopilot SMSBot
 
-*Firebase Services
-
-  *FireStore
+FireStore
   
-  *Firebase Database
+Firebase Database
   
-  *Firebase Authentication
+Firebase Authentication
   
-  *Firebase Hosting
+Firebase Hosting
   
-*HTML/CSS/JS/JQuery/BootStrap
+HTML/CSS/JS/JQuery/BootStrap
 
 # Challenges I ran into
 Originally we were going to use Interledger, we spent many hours trying to wrap our head around it and utilize it but in the end we dropped it because we found out that it would require many more hours of learning OTHER api's built on the open source platform in order to make anything of interledger. We stuck with Xpring however because it was much simpler to set up a testing environment.
