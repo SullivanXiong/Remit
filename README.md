@@ -41,7 +41,7 @@ firebase serve
 ```
 
 
-As of currently there is no availability public to test out the SMSBot yet because it's on built with Twilio AutoPilot through the Twilio Dashboard Interface and not through Command Line Interface. This means we did not use a backend server like nodejs + twilio API. More about this can be seen in the SMSBot directory as JPEGs of proof of the Twilio Dashboard implementation.
+As of currently there is no availability public to test out the SMSBot yet because it's on built with Twilio AutoPilot through the Twilio Dashboard Interface and not through Command Line Interface. This means we did not use a backend server like nodejs + twilio API. More about this can be seen in the SMSBot directory as PNG's of proof of the Twilio Dashboard implementation.
 
 # NOT TO BE CONFUSED WITH SMSBot.js and SMSBot.py in side of -/Remit/SMSBot directory
 That was just us playing around with the Twilio API on python and nodejs BEFORE we decided to use the Dashboard Interface's AutoPilot feature which was just much easier and less work to develop a fully fledged SMSbot.
