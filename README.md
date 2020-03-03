@@ -3,6 +3,9 @@ Remit is a peer-to-peer payment system with a quick one time set up process. Onc
 
 # Technologies utilized:
 Xpring-js
+Nodejs
+Heroku
+Ngrok
 Twilio Autopilot SMSBot
 Firebase Services
   FireStore
@@ -21,3 +24,4 @@ We're planning on redesigning our website to look much better, we're going to im
 
 Some of our ideas for a more secure SMS authentication as of right now are: single-use SMS passwords (we'll have a way for you to create a new single-use one), possibly some type of physical hardware key of some sort, or through the use of some type of encryption protocol.
 
+We're also planning to acquire a phone number in every country code so that the SMSBot can be accessible globally when we're in production.
