@@ -48,3 +48,6 @@ That was just us playing around with the Twilio API on python and nodejs BEFORE 
 ```
 cd -/Remit/SMSBot
 ```
+
+# https://remitme.tech
+Sadly the hosted version of our web app does not work yet and you'll have to run it locally with the steps above to make it work.
