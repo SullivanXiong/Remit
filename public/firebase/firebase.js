@@ -94,6 +94,11 @@ function authUser() {
                 console.log("User Name exists already.");
             }
             else {
+                $.ajax({
+                    method: "GET",
+                    url: "http://4fb0916a.ngrok.io/generateWallet"
+                    
+                });
                 db.collection("addresses").doc("pairs").get().then(
                     (addressSecret) => 
                     {
