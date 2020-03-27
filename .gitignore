@@ -2,3 +2,5 @@
 *.swp
 env/
 node_modules/
+SMSBot/users.json
+SMSBot/TwilioAuth.json

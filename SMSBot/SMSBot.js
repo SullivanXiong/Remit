@@ -7,9 +7,8 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
 
-const accountSid = 'AC1372d1ae9d18b93ce957acd2b8ca0e8d';
-const authToken = '1db3e2208d420d2c4d7215353c464e06';
-const client = require('twilio')(accountSid, authToken);
+const twilioAuth = require('./TwilioAuth.json');
+const client = require('twilio')(twilioAuth.accountSid, twilioAuth.authToken);
 
 const remoteURL = "test.xrp.xpring.io:50051";
 const xpringClient = new XpringClient(remoteURL, true);
@@ -17,9 +16,8 @@ const xpringClient = new XpringClient(remoteURL, true);
 const app = express();
 
 mongoose.connect('mongodb+srv://suxiong:asdfghjkl@cluster0-a1g8y.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => {
-        console.log('Successfully connected to mongoose.');
-    });
+    .then(() => console.log('Successfully connected to mongoose.'))
+    .catch((err) => console.log(err));
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true })) 
@@ -52,16 +50,6 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-
-const Sulli = {
-    mnemonic: "exhaust pill nice avocado joke birth salad pudding vacuum act ask legal",
-    derivationPath: "m/44'/144'/0'/0/0"
-}
-
-const Ed = {
-    mnemonic: "gasp search pioneer design latin inflict steak shell choice jaguar blanket scare",
-    derivationPath: "m/44'/144'/0'/0/0"
-}
 
 app.post('/inbound', (req, res) => {
     let from = req.body.From;
@@ -98,14 +86,25 @@ app.post('/inbound', (req, res) => {
                         .then(message => console.log(`from: ${to}, to: ${from}, message is: \"Create your new remit nickname\"`));
                     });
                 }
-                else {
-                    client.messages
+                else if (body.toLowerCase() === "check balance") {
+                    Message.findByIdAndUpdate(message[0]._id, {"$set": {"mode": body.toLowerCase()}}, {"new": true, "upsert": true}, () => {
+                        client.messages
                         .create({
-                            body: 'please type \"send\" OR \"create account\"',
+                            body: 'Enter your remit nickname',
                             from: `${to}`,
                             to: `${from}`
                         })
-                        .then(message => console.log(`from: ${to}, to: ${from}, message is: \"please type \"send\" OR \"create account\"\"`));
+                        .then(message => console.log(`from: ${to}, to: ${from}, message is: \"Enter your new remit nickname\"`));
+                    });
+                }
+                else {
+                    client.messages
+                        .create({
+                            body: 'Please type \"send\" OR \"create account\" OR \"check balance\"',
+                            from: `${to}`,
+                            to: `${from}`
+                        })
+                        .then(message => console.log(`from: ${to}, to: ${from}, message is: \"please type \"send\" OR \"create account\" OR \"check balance\"\"`));
                 }
             }
             else if (message[0].mode == 'send' && !message[0].sender && !message[0].receiver && !message[0].amount && !message[0].currency && !message[0].password) {
@@ -120,7 +119,7 @@ app.post('/inbound', (req, res) => {
                 });
             }
             else if (message[0].mode == 'send' && !message[0].receiver && !message[0].amount && !message[0].currency && !message[0].password) {
-                Message.findByIdAndUpdate(message[0]._id, {"$set": {"receiver": body}}, {"new": true, "upsert": true}, () => {
+                Message.findByIdAndUpdate(message[0]._id, {"$set": {"receiver": body.toLowerCase()}}, {"new": true, "upsert": true}, () => {
                     client.messages
                     .create({
                         body: 'Choose your currency type',
@@ -131,15 +130,28 @@ app.post('/inbound', (req, res) => {
                 });
             }
             else if (message[0].mode == 'send' && !message[0].amount && !message[0].currency && !message[0].password) {
-                Message.findByIdAndUpdate(message[0]._id, {"$set": {"currency": body}}, {"new": true, "upsert": true}, () => {
-                    client.messages
-                    .create({
-                        body: 'Enter Amount',
-                        from: `${to}`,
-                        to: `${from}`
-                    })
-                    .then(message => console.log(`from: ${to}, to: ${from}, message is: \"Enter Amount\"`));
-                });
+                if (body.toLowerCase() === "xrp") {
+                    Message.findByIdAndUpdate(message[0]._id, {"$set": {"currency": body}}, {"new": true, "upsert": true}, () => {
+                        client.messages
+                        .create({
+                            body: 'Enter Amount to send',
+                            from: `${to}`,
+                            to: `${from}`
+                        })
+                        .then(message => console.log(`from: ${to}, to: ${from}, message is: \"Enter Amount to send\"`));
+                    });
+                }
+                else {
+                    Message.findByIdAndUpdate(message[0]._id, {"$set": {"currency": 'XRP'}}, {"new": true, "upsert": true}, () => {
+                        client.messages
+                        .create({
+                            body: 'We only support XRP currently, so we\'re setting your currency type to XRP. Enter Amount to send',
+                            from: `${to}`,
+                            to: `${from}`
+                        })
+                        .then(message => console.log(`from: ${to}, to: ${from}, message is: \"e only support XRP currently, so we\'re setting your currency type to XRP. Enter Amount to send\"`));
+                    });
+                }
             }
             else if (message[0].mode == 'send' && !message[0].amount && !message[0].password) {
                 Message.findByIdAndUpdate(message[0]._id, {"$set": {"amount": body}}, {"new": true, "upsert": true}, () => {
@@ -153,26 +165,59 @@ app.post('/inbound', (req, res) => {
                 });
             }
             else if (message[0].mode == 'send' && !message[0].password) {
+                if (usersFile.users[message[0].sender].password === body) {
+                    let sender = message[0].sender;
+                    let receiver = message[0].receiver;
+                    let amount = message[0].amount;
+                    const senderMnemonic = usersFile.users[sender].mnemonic;
+                    const senderDerivationPath = usersFile.users[sender].derivationPath;
+                    const senderWallet = Wallet.generateWalletFromMnemonic(senderMnemonic, senderDerivationPath);
+                    const receiverMnemonic = usersFile.users[receiver].mnemonic;
+                    const receiverDerivationPath = usersFile.users[receiver].derivationPath;
+                    const receiverWallet = Wallet.generateWalletFromMnemonic(receiverMnemonic, receiverDerivationPath);
+                    const receiverAddress = receiverWallet.getAddress();
+
+                    validateBalance(senderWallet, to, from, amount, receiverAddress, receiverWallet);
+                }
+                else {
+                    console.log("could not find user");
+                    Message.findByIdAndDelete(message[0]._id, () => {
+                        client.messages
+                        .create({
+                            body: 'Password incorrect',
+                            from: `${to}`,
+                            to: `${from}`
+                        })
+                        .then(message => console.log(`from: ${to}, to: ${from}, message is: \"Password incorrect\"`))
+                    });
+                    res.end();
+                }
+
                 Message.findByIdAndDelete(message[0]._id, () => {
-                    client.messages
-                    .create({
-                        body: 'Transaction complete',
-                        from: `${to}`,
-                        to: `${from}`
-                    })
-                    .then(message => console.log(`from: ${to}, to: ${from}, message is: \"Transaction complete\"`))
+                    console.log(`conversation finished with ${message[0].sender}`);
                 });
             }
             else if (message[0].mode == 'create account' && !message[0].sender && !message[0].password) {
-                Message.findByIdAndUpdate(message[0]._id, {"$set": {"sender": body.toLowerCase()}}, {"new": true, "upsert": true}, () => {
+                if (!usersFile.users[body.toLowerCase()]) {
+                    Message.findByIdAndUpdate(message[0]._id, {"$set": {"sender": body.toLowerCase()}}, {"new": true, "upsert": true}, () => {
+                        client.messages
+                        .create({
+                            body: 'Set your password',
+                            from: `${to}`,
+                            to: `${from}`
+                        })
+                        .then(message => console.log(`from: ${to}, to: ${from}, message is: \"Set your password\"`));
+                    });   
+                }
+                else {
                     client.messages
-                    .create({
-                        body: 'Set your password',
-                        from: `${to}`,
-                        to: `${from}`
-                    })
-                    .then(message => console.log(`from: ${to}, to: ${from}, message is: \"Set your password\"`));
-                });   
+                        .create({
+                            body: 'Nickname already exists, choose a different nickname',
+                            from: `${to}`,
+                            to: `${from}`
+                        })
+                        .then(message => console.log(`from: ${to}, to: ${from}, message is: \"Nickname already exists, choose a different nickname\"`));
+                }
             }
             else if (message[0].mode == 'create account' && !message[0].password) {
                 const sender = message[0].sender;
@@ -204,6 +249,42 @@ app.post('/inbound', (req, res) => {
                     console.log('Successfully registered new Remit user.');
                 });
             }
+            else if (message[0].mode == 'check balance' && !message[0].sender && !message[0].password) {
+                Message.findByIdAndUpdate(message[0]._id, {"$set": {"sender": body.toLowerCase()}}, {"new": true, "upsert": true}, () => {
+                    client.messages
+                    .create({
+                        body: 'Enter your password',
+                        from: `${to}`,
+                        to: `${from}`
+                    })
+                    .then(message => console.log(`from: ${to}, to: ${from}, message is: \"Enter your password\"`));
+                });   
+            }
+            else if (message[0].mode == 'check balance' && !message[0].password) {
+                if (usersFile.users[message[0].sender].password === body) {
+                    const userMnemonic = usersFile.users[message[0].sender].mnemonic;
+                    const userDerivationPath = usersFile.users[message[0].sender].derivationPath;
+                    const userWallet = Wallet.generateWalletFromMnemonic(userMnemonic, userDerivationPath);
+
+                    checkBalance(userWallet, to, from, 1);
+                }
+                else {
+                    console.log("could not find user");
+                    Message.findByIdAndDelete(message[0]._id, () => {
+                        client.messages
+                        .create({
+                            body: 'Password incorrect',
+                            from: `${to}`,
+                            to: `${from}`
+                        })
+                        .then(message => console.log(`from: ${to}, to: ${from}, message is: \"Password incorrect\"`))
+                    });
+                    res.end();
+                }
+                Message.findByIdAndDelete(message[0]._id, () => {
+                    console.log(`conversation finished with ${message[0].sender}`);
+                });
+            }
 
             res.end();
         }
@@ -215,11 +296,11 @@ app.post('/inbound', (req, res) => {
             newMessage.save(() => {
                 client.messages
                     .create({
-                        body: 'Hello, please type \"send\" OR \"create account\"',
+                        body: 'Hello, please type \"send\" OR \"create account\" OR \"check balance\"',
                         from: `${to}`,
                         to: `${from}`
                     })
-                    .then(message => console.log(`from: ${to}, to: ${from}, message is: \"Hello, please type \"send\" OR \"create account\"\"`));
+                    .then(message => console.log(`from: ${to}, to: ${from}, message is: \"Hello, please type \"send\" OR \"create account\" OR \"check balance\"\"`));
 
                 res.end();
             });
@@ -229,23 +310,93 @@ app.post('/inbound', (req, res) => {
     });
 });
 
-async function send(amount, receiverAddress, senderWallet, receiverWallet) {
-    console.log(BigInt(amount));
-    const transactionHash = await xpringClient.send(BigInt(amount), receiverAddress, senderWallet)
+async function send(amount, receiverAddress, senderWallet, receiverWallet, to, from) {
+    const dropToFull = amount * 1000000
+    console.log(BigInt(dropToFull));
+    const transactionHash = await xpringClient.send(BigInt(dropToFull), receiverAddress, senderWallet)
         .then(() => {
             console.log('Transaction complete...');
-            checkBalance(senderWallet);
-            checkBalance(receiverWallet);
+            checkBalance(senderWallet, to, from, 0);
         })
         .catch((err) => console.log(err));
     ;
 }
 
-async function checkBalance(wallet) {
+async function checkBalance(wallet, to, from, mode) {
     console.log(wallet.getAddress());
     const balance = await xpringClient.getBalance(wallet.getAddress())
-        .then((balance) => console.log(`balance is: ${balance}`))
-        .catch((err) => console.log(err));
+        .then((balance) => {
+            console.log(`Balance is: ${balance}`);
+            newBalance = balance/1000000;
+            if (mode == 0) {
+                client.messages
+                    .create({
+                        body: `Your new balance is: ${newBalance} XRP`,
+                        from: `${to}`,
+                        to: `${from}`
+                    })
+                    .then(message => { 
+                        console.log(`from: ${to}, to: ${from}, message is: \"Your new balance is: ${newBalance} XRP\"`);
+                    });
+            }
+            else {
+                client.messages
+                    .create({
+                        body: `Your balance is: ${newBalance} XRP`,
+                        from: `${to}`,
+                        to: `${from}`
+                    })
+                    .then(message => { 
+                        console.log(`from: ${to}, to: ${from}, message is: \"Your balance is: ${newBalance} XRP\"`);
+                    });
+            }
+        })
+        .catch((err) => {
+            console.log('Balance is: 0');
+            client.messages
+                .create({
+                    body: `Your balance is: 0 XRP`,
+                    from: `${to}`,
+                    to: `${from}`
+                })
+                .then(message => { 
+                    console.log(`from: ${to}, to: ${from}, message is: \"Your balance is: 0 XRP\"`);
+                });
+        });
+}
+
+async function validateBalance(wallet, to, from, amount, receiverAddress, receiverWallet) {
+    console.log(wallet.getAddress());
+    const balance = await xpringClient.getBalance(wallet.getAddress())
+        .then((balance) => {
+            console.log(`Balance is: ${balance}`);
+            newBalance = balance/1000000;
+            if (newBalance <= 30) {
+                client.messages
+                    .create({
+                        body: `Your balance is: ${newBalance} XRP, which is the required amount to maintain keep your wallet up and running therefore the transaction cannot happen.`,
+                        from: `${to}`,
+                        to: `${from}`
+                    })
+                    .then(message => { 
+                        console.log(`from: ${to}, to: ${from}, message is: \"Your balance is: ${newBalance} XRP, which is the required amount to maintain keep your wallet up and running therefore the transaction cannot happen.\"`);
+                    });
+            }
+            else
+                send(amount, receiverAddress, wallet, receiverWallet, to, from);
+        })
+        .catch((err) => {
+            console.log('Balance is: 0');
+            client.messages
+                .create({
+                    body: `Your balance is: 0 XRP`,
+                    from: `${to}`,
+                    to: `${from}`
+                })
+                .then(message => { 
+                    console.log(`from: ${to}, to: ${from}, message is: \"Your balance is: 0 XRP\"`);
+                });
+        });
 }
 
 app.get('/', (req, res) => {
